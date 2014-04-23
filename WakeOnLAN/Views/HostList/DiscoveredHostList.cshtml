@@ -1,0 +1,46 @@
+﻿@using Paging
+@using System.Resources
+@model IPagedList<KeyValuePair<string, List<Network.Computer.Enumerate.DL.IpAddrMACPair>>>
+
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Список компьютеров в локальной сети</title>
+</head>
+<body>
+    <div id="commentindexpage">
+       
+        @if (Model != null)
+        {
+            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)        
+            if (Model.Any()) 
+            {
+                <table class="list">
+                    <tbody>               
+                        @{foreach (var host in Model)
+                          {
+                             foreach (var c in host.Value)
+                             {
+                                 <tr>
+                                     <td>@host.Key</td>
+                                     <td>@c.IpAddress</td>
+                                     <td>@c.MACAddress</td>
+                                 </tr>
+                             }                        
+                          }
+                        }
+                    </tbody>
+                </table>
+                @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)           
+            }
+        }
+    </div>
+
+</body>
+</html>

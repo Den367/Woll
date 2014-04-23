@@ -1,0 +1,33 @@
+﻿@using System.Globalization
+@model WakeOnLAN.Models.Save.ActualizeResultModel
+@{
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <br/>
+        @Html.ActionLink("Обновить сетевые адреса хостов", "Actualize", null, new { @class = "btn" })
+        <br>
+    </div>
+    @if (Model != null)
+    {
+        <table>
+            <tr>
+                <td>Добавлено хостов:</td>
+                <td>@Html.Label(Model.New.ToString(CultureInfo.InvariantCulture))</td>
+            </tr>
+            <tr>
+                <td>Всего хостов:</td>
+                <td>@Html.Label(Model.Total.ToString(CultureInfo.InvariantCulture))</td>
+            </tr>
+        </table>}
+</body>
+</html>

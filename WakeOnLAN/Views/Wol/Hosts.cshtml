@@ -1,0 +1,27 @@
+﻿@using Paging
+@model Paging.IPagedList<KeyValuePair<string, List<Network.Computer.Enumerate.DL.IpAddrMACPair>>>
+
+@{ Layout = null;}
+    <div id="wol-hosts-filtered-paged">
+        
+            @if (Model.Any()) 
+            {
+                <table class="list">
+                    <tbody>               
+                        @{foreach (var host in Model)
+                          {
+                             foreach (var c in host.Value)
+                             {
+                                 <tr>
+                                     <td>@host.Key</td>
+                                     <td>@c.IpAddress</td>
+                                     <td>@c.MACAddress</td>
+                                     <td>@Html.ActionLink("Отправить magic packet", "SendMagicPacket", new { macAddress = c.MACAddress }, new { @class = "btn" })</td>
+                                 </tr>
+                             }                        
+                          }
+                        }
+                    </tbody>
+                </table>                    
+            }         
+    </div>

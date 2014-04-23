@@ -1,0 +1,54 @@
+﻿@using Paging
+
+
+@model WakeOnLAN.ViewModel.FilteredHostListViewModel
+
+<script src="@Url.Content("~/Scripts/Views/wol.js")" type="text/javascript" defer></script> 
+
+
+
+<fieldset>
+    <legend>Фильтр</legend>
+    <table>
+        <tr>
+        <td>@Html.Label("Хост:")</td>
+        <td>@Html.TextBox("nameFilter",null, new {@id="nameFilter"})</td>
+            </tr>
+    </table>
+</fieldset>  
+  @if (Model != null)
+  {
+      var hosts = Model.Hosts;
+      <div class="pager">@Ajax.Pager(hosts.PageSize, hosts.PageNumber, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
+                             {
+                                 UpdateTargetId = "wol-hosts-filtered-paged",
+                                 InsertionMode = InsertionMode.Replace,
+                                 HttpMethod = "POST",
+                                 Url = Url.Action("Hosts", "Wol", new {@name = Model.HostFilter, @page = hosts.PageNumber, @count = hosts.PageSize})
+
+                             })</div>
+      {
+          Html.RenderPartial("Hosts", Model.Hosts);
+      }
+
+      <script type="text/javascript" defer>
+
+          function search(force) {
+              var existingString = $("#nameFilter").val();
+              if (!force && existingString.length < 1) return; //wasn't enter, not > 2 char
+              $.ajax({
+                      url: '@Url.Action("Hosts", "Wol")',
+                      type: "GET",
+                      data: { name: existingString, count: @Html.Raw(hosts.PageSize), page: @Html.Raw(hosts.PageNumber) },
+                      dataType: "html",
+                      success:
+                          function(data) {
+
+                              $('div#wol-hosts-filtered-paged').html(data);
+                              $('#wol-hosts-filtered-paged').show();
+                          }
+                  }
+              );
+          }
+      </script>
+  }
