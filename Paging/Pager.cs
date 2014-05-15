@@ -28,10 +28,11 @@ namespace Paging
         private readonly AjaxHelper _ajaxHelper;
         private readonly AjaxOptions _ajaxOptionsValues;
         private string _actionName;
-        private string _controllerName;
+        private string _controllerName;      
+        private string _filter;
 
         #endregion
-        delegate string GeneratePageLinkDelegate(string linkText, int pageNumber, int pageSizeToDisplay);
+        delegate string GeneratePageLinkDelegate(string linkText, string name, int pageNumber, int pageSizeToDisplay);
 
         private GeneratePageLinkDelegate _generatePageLink;
         #region Properties
@@ -132,7 +133,7 @@ namespace Paging
             this.linkWithoutPageValuesDictionary = valuesDictionary;
         }
 
-        public Pager(ViewContext viewContext, int pageSize, int currentPage, int totalItemCount, AjaxHelper ajaxHelper, string actionName, string controllerName, AjaxOptions ajaxOptions)
+        public Pager(ViewContext viewContext, string name,int pageSize, int currentPage, int totalItemCount, AjaxHelper ajaxHelper, string actionName, string controllerName, AjaxOptions ajaxOptions)
         {
             this.viewContext = viewContext;
             this.pageSize = pageSize;
@@ -143,6 +144,7 @@ namespace Paging
             this._actionName = actionName;
             this._controllerName = controllerName;
              this.linkWithoutPageValuesDictionary = new RouteValueDictionary();
+            this._filter = name;
         }
 
         #endregion
@@ -177,9 +179,9 @@ namespace Paging
             sb.Append("</span>");
 
             // Page Sizes
-            sb.AppendFormat("<span class=\"{0}\">", StyleNamePageSizesSpan);
-            RenderPageSizerHtml(sb);
-            sb.Append("</span>");
+            //sb.AppendFormat("<span class=\"{0}\">", StyleNamePageSizesSpan);
+            //RenderPageSizerHtml(sb);
+            //sb.Append("</span>");
 
             // Close
             sb.Append("</div>");
@@ -232,7 +234,7 @@ namespace Paging
             }
             for (int i = start; i <= end; i++)
             {
-                if ((i ) == this.currentPage)
+                if ((i) == this.currentPage || (this.currentPage == 0 && i == 1 ))
                 {
                     sb.AppendFormat("<span class=\"{0}\">{1}</span>", StyleNameCurrentLink, i);
                 }
@@ -251,7 +253,7 @@ namespace Paging
             // Next
             if (this.currentPage < pageCount)
             {
-                sb.Append(GeneratePageLink(">", (this.currentPage )));
+                sb.Append(GeneratePageLink(">", (this.currentPage + 1)));
             }
             else
             {
@@ -262,7 +264,7 @@ namespace Paging
         private void RenderPageInfoHtml(StringBuilder sb)
         {
             var totalItems = this.totalItemCount;
-            var firstItem = 1 + ((this.currentPage - 1) * this.pageSize);
+            var firstItem = 1 + (((this.currentPage > 0) ?  (this.currentPage - 1): 0) * this.pageSize);
             var lastItem = Math.Min(totalItems, firstItem + this.pageSize - 1);
             sb.AppendFormat(PageInfoFormat, firstItem, lastItem, totalItems);
         }
@@ -280,13 +282,13 @@ namespace Paging
                     // Always go to page 1 when changing page size.
                     if (null != _ajaxOptionsValues) _generatePageLink = GenerateAjaxedPageLink;
                     else _generatePageLink = GeneratePageLink;
-                         sb.Append(_generatePageLink(pageSizeToDisplay.ToString(CultureInfo.CurrentCulture), 1, pageSizeToDisplay));
+                         sb.Append(_generatePageLink(pageSizeToDisplay.ToString(CultureInfo.CurrentCulture),null, 1, pageSizeToDisplay));
                 }
             }
         }
 
 
-        private string GeneratePageLink(string linkText, int pageNumber, int pageSizeToDisplay)
+        private string GeneratePageLink(string linkText, string name, int pageNumber, int pageSizeToDisplay)
         {
             var pageLinkValueDictionary = new RouteValueDictionary(this.linkWithoutPageValuesDictionary)
                 {
@@ -308,10 +310,10 @@ namespace Paging
 
         private string GeneratePageLink(string linkText, int pageNumber)
         {
-            if (this._ajaxOptionsValues != null) return GenerateAjaxedPageLink(linkText,  pageNumber, this.pageSize)
+            if (this._ajaxOptionsValues != null) return GenerateAjaxedPageLink(linkText, _filter, pageNumber, this.pageSize)
             ;
             
-            return GeneratePageLink(linkText, pageNumber, this.pageSize);
+            return GeneratePageLink(linkText, null,pageNumber, this.pageSize);
         }
 
 
@@ -320,11 +322,12 @@ namespace Paging
         #endregion
         #region [AjaxPaging]
 
-        private string GenerateAjaxedPageLink(string linkText, int pageNumber, int pageSizeToDisplay)
+        private string GenerateAjaxedPageLink(string linkText, string name,int pageNumber, int pageSizeToDisplay)
         {
-            var pageLinkValueDictionary = new RouteValueDictionary { { "page", pageNumber }, { "count", pageSizeToDisplay } };
+            var pageLinkValueDictionary = new RouteValueDictionary { {"name", name},{ "page", pageNumber }, { "count", pageSizeToDisplay } };
 
-
+            var opt = new AjaxOptions();
+            _ajaxOptionsValues.Url = _ajaxOptionsValues.Url.ReplaceQueryStringValue("page", pageNumber.ToString());
             return _ajaxHelper.ActionLink(linkText, _actionName, _controllerName, pageLinkValueDictionary, _ajaxOptionsValues).ToString();
 
 

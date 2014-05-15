@@ -178,16 +178,21 @@ namespace Network.Computer.Enumerate
 
         }
 
-        public Dictionary<string, List<IpAddrMACPair>> GetAvailableHostDict()
+        public Dictionary<string, List<HostResult>> GetAvailableHostDict()
         {
             var compList = getNetworkComputers();
             return compList.ToDictionary(compName => compName, compName => _macAddressGetter.GetIpMacPairs(compName));
         }
 
-        public List<KeyValuePair<string, List<IpAddrMACPair>>> GetAvailableHostList()
+        public List<KeyValuePair<string, List<HostResult>>> GetAvailableHostList()
         {
 
             return GetAvailableHostDict().ToList();
+        }
+
+        public PingResult GetPingResult(string hostNameOrAddress)
+        {
+            return _macAddressGetter.GetPingResult(hostNameOrAddress);
         }
 
         #endregion

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DL\IpAddrMACPair.cs" />
+    <Compile Include="DL\PingResult.cs" />
     <Compile Include="MACAddressGetter.cs" />
     <Compile Include="NetworkBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

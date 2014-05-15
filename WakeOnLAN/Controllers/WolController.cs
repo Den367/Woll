@@ -18,29 +18,29 @@ namespace WakeOnLAN.Controllers
 
         public ActionResult Index(string name,int? count, int page = 0   )
         {
-            IWolRepository repo = new WolRepository();
-            int total ;
-            var pageModel = new PagedList<KeyValuePair<string, List<IpAddrMACPair>>>(repo.GetHostListPaged(name, page, count ?? 25, out total), page , count ?? 25, total);
-            var result = new FilteredHostListViewModel() {HostFilter = name, Hosts = pageModel};
 
-            return View(result);
+            return View(getPagedHosts(name,  count, page ));
         }
 
+        
         public ActionResult Hosts(string name, int? count, int page = 0)
         {
-            IWolRepository repo = new WolRepository();
-            int total;
-            var result = new PagedList<KeyValuePair<string, List<IpAddrMACPair>>>(repo.GetHostListPaged(name, page, count ?? 25, out total), page , count ?? 25, total);
-
-
-            return View(result);
+            return View(getPagedHosts(name, count, page));
         }
 
         public ActionResult SendMagicPacket(string macAddress)
         {
             new MagicPacketSender().SendMagicPacket(macAddress);
             ViewBag.Message = string.Format("Сообщение отправлено на MAC адрес {0}",macAddress);
-            return View("Index");
+            return RedirectToAction("Index");
+        }
+
+        private FilteredHostListViewModel getPagedHosts(string name, int? count, int page = 0)
+        {
+            IWolRepository repo = new WolRepository();
+            int total;
+            var pageModel = new PagedList<KeyValuePair<string, List<HostResult>>>(repo.GetHostListPaged(name, page, count ?? 10, out total), page, count ?? 10, total);
+            return new FilteredHostListViewModel() { HostFilter = name, Hosts = pageModel };
         }
 
         //public ActionResult DiscoveredHostList(int? count, int page = 1)

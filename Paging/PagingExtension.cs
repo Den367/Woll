@@ -118,9 +118,9 @@ namespace Paging
             return pager.RenderHtml();
         }
 
-        public static MvcHtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, string actionName, string controllerName,  AjaxOptions ajaxOptions)
+        public static MvcHtmlString Pager(this AjaxHelper ajaxHelper,string name, int pageSize, int currentPage, int totalItemCount, string actionName, string controllerName,  AjaxOptions ajaxOptions)
         {
-            var pager = new Pager(ajaxHelper.ViewContext, pageSize, currentPage, totalItemCount, ajaxHelper, actionName, controllerName, ajaxOptions);
+            var pager = new Pager(ajaxHelper.ViewContext, name,pageSize, currentPage, totalItemCount, ajaxHelper, actionName, controllerName, ajaxOptions);
             return pager.RenderHtml();
         }
 

@@ -9,7 +9,7 @@ namespace WakeOnLAN.Repository.HostList
 {
     public interface IHostListRepository
     {
-        List<KeyValuePair<string, List<IpAddrMACPair>>> GetHostList();
-        List<KeyValuePair<string, List<IpAddrMACPair>>> GetHostListPaged(int pageNo, int pagesize, ref int total);
+        List<KeyValuePair<string, List<HostResult>>> GetHostList();
+        List<KeyValuePair<string, List<HostResult>>> GetHostListPaged(int pageNo, int pagesize, ref int total);
     }
 }

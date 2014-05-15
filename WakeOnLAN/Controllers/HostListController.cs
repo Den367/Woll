@@ -22,7 +22,7 @@ namespace WakeOnLAN.Controllers
         {
             IHostListRepository repo = new HostListRepository();
             int total = 0;
-            var result = new PagedList<KeyValuePair<string, List<IpAddrMACPair>>>(repo.GetHostListPaged(page, count ?? 25, ref total ), page, count ?? 25,total);
+            var result = new PagedList<KeyValuePair<string, List<HostResult>>>(repo.GetHostListPaged(page, count ?? 25, ref total ), page, count ?? 25,total);
            
             ViewBag.Title = "Доступные хосты";
 

@@ -12,23 +12,15 @@
     <table>
         <tr>
         <td>@Html.Label("Хост:")</td>
-        <td>@Html.TextBox("nameFilter",null, new {@id="nameFilter"})</td>
+        <td>@Html.TextBox("nameFilter",Model.HostFilter, new {@id="nameFilter"})</td>
             </tr>
     </table>
 </fieldset>  
   @if (Model != null)
   {
-      var hosts = Model.Hosts;
-      <div class="pager">@Ajax.Pager(hosts.PageSize, hosts.PageNumber, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
-                             {
-                                 UpdateTargetId = "wol-hosts-filtered-paged",
-                                 InsertionMode = InsertionMode.Replace,
-                                 HttpMethod = "POST",
-                                 Url = Url.Action("Hosts", "Wol", new {@name = Model.HostFilter, @page = hosts.PageNumber, @count = hosts.PageSize})
-
-                             })</div>
+    
       {
-          Html.RenderPartial("Hosts", Model.Hosts);
+          Html.RenderPartial("Hosts", Model);
       }
 
       <script type="text/javascript" defer>
@@ -39,7 +31,7 @@
               $.ajax({
                       url: '@Url.Action("Hosts", "Wol")',
                       type: "GET",
-                      data: { name: existingString, count: @Html.Raw(hosts.PageSize), page: @Html.Raw(hosts.PageNumber) },
+                      data: { name: existingString, count: @Html.Raw(Model.Hosts.PageSize), page: 1 },
                       dataType: "html",
                       success:
                           function(data) {

@@ -8,7 +8,7 @@ namespace WakeOnLAN.ViewModel
 {
     public class FilteredHostListViewModel
     {
-        public PagedList<KeyValuePair<string, List<Network.Computer.Enumerate.DL.IpAddrMACPair>>> Hosts { get; set; }
+        public PagedList<KeyValuePair<string, List<Network.Computer.Enumerate.DL.HostResult>>> Hosts { get; set; }
         public string HostFilter { get; set; }
 
 

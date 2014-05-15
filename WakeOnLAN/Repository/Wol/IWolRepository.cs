@@ -9,7 +9,7 @@ namespace WakeOnLAN.Repository.Wol
 {
    public  interface IWolRepository
     {
-        List<KeyValuePair<string, List<IpAddrMACPair>>> GetAllHostList();
-       List<KeyValuePair<string, List<IpAddrMACPair>>> GetHostListPaged(string hostName, int pageNo, int pagesize, out int total);
+        List<KeyValuePair<string, List<HostResult>>> GetAllHostList();
+       List<KeyValuePair<string, List<HostResult>>> GetHostListPaged(string hostName, int pageNo, int pagesize, out int total);
     }
 }

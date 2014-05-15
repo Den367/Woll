@@ -596,7 +596,7 @@ tr.pager td {
     ----------------------------------------------------------*/
     header .float-left,
     header .float-right {
-        float: none;
+        float: right;
     }
 
     /* logo */

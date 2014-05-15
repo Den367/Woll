@@ -1,14 +1,25 @@
 ﻿@using Paging
-@model Paging.IPagedList<KeyValuePair<string, List<Network.Computer.Enumerate.DL.IpAddrMACPair>>>
+@model WakeOnLAN.ViewModel.FilteredHostListViewModel
 
-@{ Layout = null;}
+@{ Layout = null;
+    var hosts = Model.Hosts;}
+
     <div id="wol-hosts-filtered-paged">
-        
-            @if (Model.Any()) 
+          
+      <div class="pager">@Ajax.Pager(Model.HostFilter, hosts.PageSize, hosts.PageIndex, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
+                             {
+                                 UpdateTargetId = "wol-hosts-filtered-paged",
+                                 InsertionMode = InsertionMode.Replace,
+                                 HttpMethod = "POST",
+                                 Url = Url.Action("Hosts", "Wol", new {@name = Model.HostFilter, @page = hosts.PageIndex, @count = hosts.PageSize})
+
+                             })</div>
+            @if (hosts.Any()) 
             {
+                <div>
                 <table class="list">
                     <tbody>               
-                        @{foreach (var host in Model)
+                        @{foreach (var host in hosts)
                           {
                              foreach (var c in host.Value)
                              {
@@ -16,12 +27,24 @@
                                      <td>@host.Key</td>
                                      <td>@c.IpAddress</td>
                                      <td>@c.MACAddress</td>
-                                     <td>@Html.ActionLink("Отправить magic packet", "SendMagicPacket", new { macAddress = c.MACAddress }, new { @class = "btn" })</td>
+                                     <td> @Html.ActionLink("Отправить magic packet", "SendMagicPacket", new {macAddress = c.MACAddress}, new {@class = "btn"})</td>
+
+                                     @*<td>@if (!c.Online)
+                                         {
+                                             Html.ActionLink("Отправить magic packet", "SendMagicPacket", new { macAddress = c.MACAddress }, new { @class = "btn" });
+                                         }
+                                         else
+                                         {
+                                             @Html.Label(string.Format("{0} мс", c.ReplyRoundtripTime))
+                                             
+                                         }
+                                     </td>*@
                                  </tr>
                              }                        
                           }
                         }
                     </tbody>
-                </table>                    
-            }         
+                </table> 
+                    </div>                   
+                    }         
     </div>

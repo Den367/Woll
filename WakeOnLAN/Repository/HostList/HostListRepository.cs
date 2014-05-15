@@ -11,14 +11,14 @@ namespace WakeOnLAN.Repository
     public class HostListRepository: IHostListRepository
     {
 
-        public List<KeyValuePair<string, List<IpAddrMACPair>>> GetHostList()
+        public List<KeyValuePair<string, List<HostResult>>> GetHostList()
         {
             NetworkBrowser browser = new NetworkBrowser();
             return browser.GetAvailableHostList();
 
         }
 
-        public List<KeyValuePair<string, List<IpAddrMACPair>>> GetHostListPaged(int pageNo, int pagesize, ref int total)
+        public List<KeyValuePair<string, List<HostResult>>> GetHostListPaged(int pageNo, int pagesize, ref int total)
         {
             NetworkBrowser browser = new NetworkBrowser();
             var hosts = browser.GetAvailableHostList();
@@ -26,7 +26,7 @@ namespace WakeOnLAN.Repository
             if (pageNo <= 0) pageNo = 1;
             int start = (pageNo - 1) * pagesize;
             int end = start + pagesize;
-            List<KeyValuePair<string, List<IpAddrMACPair>>> result = new List<KeyValuePair<string, List<IpAddrMACPair>>>();
+            List<KeyValuePair<string, List<HostResult>>> result = new List<KeyValuePair<string, List<HostResult>>>();
 
             for (int i = start; i <= end; i++) if (i < total) result.Add(hosts[i]);
             

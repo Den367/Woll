@@ -161,11 +161,22 @@ namespace Network.Computer.Enumerate
         /// remote host for which MAC address is desired.</param>
         /// <returns><see langword="true" /> if the host is currently accessible;
         /// <see langword="false"/> otherwise.</returns>
+        public PingResult GetPingResult(string hostNameOrAddress)
+        {
+            Ping ping = new Ping();
+            PingReply reply = ping.Send(hostNameOrAddress, PING_TIMEOUT);
+            if (reply != null)
+                return new PingResult { Status = reply.Status, ReplyRoundtripTime = reply.RoundtripTime };
+            else return null;
+        }
+
         public static bool IsHostAccessible(string hostNameOrAddress)
         {
             Ping ping = new Ping();
             PingReply reply = ping.Send(hostNameOrAddress, PING_TIMEOUT);
-            return reply.Status == IPStatus.Success;
+            if (reply != null)
+                return (IPStatus.Success == reply.Status);
+            else return false;
         }
 
         public List<string> GetIpAddressByName(string hostName)
@@ -184,13 +195,13 @@ namespace Network.Computer.Enumerate
             return result;
         }
 
-        public List<IpAddrMACPair> GetIpMacPairs(string hostName)
+        public List<HostResult> GetIpMacPairs(string hostName)
         {
-            var result = new  List<IpAddrMACPair>();
+            var result = new  List<HostResult>();
             var comps = GetIpAddressByName(hostName);
             foreach (var comp in comps)
             {
-                result.Add(new IpAddrMACPair() { IpAddress = comp, MACAddress = GetMACAddressFromARP(comp) });
+                result.Add(new HostResult() { IpAddress = comp, MACAddress = GetMACAddressFromARP(comp) });
             }
 
             return result;

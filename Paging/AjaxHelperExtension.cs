@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
@@ -35,6 +36,14 @@ namespace Paging
 
             return helper.ActionLink(linkText, actionName, controllerName, pageLinkValueDictionary, ajaxOptions, new { @class = cssClass });
 
+        }
+
+        public static string ReplaceQueryStringValue(this string url, string key, string value)
+        {
+            return Regex.Replace(
+                url,
+                @"([?&]" + key + ")=[^?&]+",
+                "$1=" + value);
         }
     }
 }
