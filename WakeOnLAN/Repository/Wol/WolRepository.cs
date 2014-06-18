@@ -102,6 +102,21 @@ namespace WakeOnLAN.Repository.Wol
             }
         }
 
+        public string GetMacAddrByHostName(string hostName)
+        {
+            using (var dbContext = new DBCntxt(GetConnectType()))
+            {
+                using (var command = dbContext.CreateCommand("wol.GetMacAddrByHostName"))
+                {
+                    command.AddParameter("HostName", SqlDbType.NVarChar, hostName);
+                    command.Parameters.Add(new SqlParameter("MacAddress", SqlDbType.NVarChar,255) { Direction = ParameterDirection.Output });
+                   
+                    command.ExecuteNonQuery();
+                    return Convert.ToString(command.Parameters["MacAddress"].Value);
+                }
+            }
+        }
+
       
     }
 }

@@ -182,6 +182,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\Theme.css" />
     <Content Include="Content\image\ethernet-card.png" />
+    <Content Include="Content\image\icon_logo_footer.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -291,6 +292,7 @@
     <Content Include="Views\Save\Index.cshtml" />
     <Content Include="Views\Wol\Index.cshtml" />
     <Content Include="Views\Wol\Hosts.cshtml" />
+    <Content Include="Views\Wol\Pager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

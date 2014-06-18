@@ -15,39 +15,45 @@
         @*      @Scripts.Render("~/bundles/modernizr")*@
 
     </head>
-    <body class="page align_center_to_right">
+    <body onload="window.scrollTo(0, 1);" class="page align_center_to_right">
         <header>
-          
+        
             <div class="content-wrapper">
-                <ins class="float-left">
-                    <section class="featured">      
-                        <img src="@Url.Content("~/content/image/ethernet-card.png")" alt="Magic packet по локальной сети" width="64" height="64" style="border: 0;" />
-                        <div class="content-wrapper">
-                            <hgroup class="title">
-                                <h1>@ViewBag.Title</h1>
-                                <h2>@ViewBag.Message</h2>
-                            </hgroup>
-                            <p>
-                
-              
-                            </p>
-                        </div>
-                    </section>
-                </ins>
-                <ins class="float-right">
-                    <section id="login">
-                        Добро пожаловать, <span class="username">@User.Identity.Name</span>!
-                    </section>
+                <section id="login" class="float-left">
+                    <span>
+                    <img src="@Url.Content("~/content/image/ethernet-card.png")" alt="Magic packet по локальной сети" width="64" height="64" style="border: 0;" />
+                    Добро пожаловать, <span class="username">@User.Identity.Name</span>!</span>
+                    <span><h1>@ViewBag.Title</h1>  </span>
+                </section>
+                <div class="float-right">
+                   
                     <nav class="navigation-filmstrip">
                         <ul id="menu">
                             @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                             <li>@Html.ActionLink("Включение", "Index", "Wol", null,new {@class="btn"})</li>
                             <li>@Html.ActionLink("Компьютеры в сети", "Index", "HostList",null,new {@class="btn"})</li>
-                            <li>@Html.ActionLink("Инструменты", "Index", "Save",null,new {@class="btn"})</li>
+                            @*<li>@Html.ActionLink("Инструменты", "Index", "Save",null,new {@class="btn"})</li>*@
                                           
                         </ul>
                     </nav>
-                </ins>
+                </div>
+                <div class="float-left">
+                    
+
+                    <section class="featured">      
+                       
+                        <div class="content-wrapper">
+                            <hgroup class="title">
+                               
+                                <h2>@ViewBag.Message</h2>
+                            </hgroup>                          
+                        </div>
+                    </section>
+                </div>
+                
+
+               
+               
             </div>
         </header>
         <div id="body" class="page align_center_to_right">
@@ -59,7 +65,8 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; PST, @DateTime.Now.Year - Отправка magic packet</p>
+                    <img src="@Url.Content("~/content/image/icon_logo_footer.png")" alt="PST" />
+                                    
                 </div>
             </div>
         </footer>

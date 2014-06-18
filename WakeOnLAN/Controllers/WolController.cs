@@ -16,9 +16,9 @@ namespace WakeOnLAN.Controllers
         //
         // GET: /Wol/
 
-        public ActionResult Index(string name,int? count, int page = 0   )
+        public ActionResult Index(string name,int? count, int page = 0  )
         {
-
+            ViewBag.Title = "Включение по сети";
             return View(getPagedHosts(name,  count, page ));
         }
 
@@ -31,8 +31,23 @@ namespace WakeOnLAN.Controllers
         public ActionResult SendMagicPacket(string macAddress)
         {
             new MagicPacketSender().SendMagicPacket(macAddress);
-            ViewBag.Message = string.Format("Сообщение отправлено на MAC адрес {0}",macAddress);
-            return RedirectToAction("Index");
+
+            return Sent(string.Format("Сообщение отправлено на MAC адрес {0}", macAddress));
+        }
+
+        public ActionResult SendMagicPacketByHostName(string hostName)
+        {
+            var macAddress = getMacAddress(hostName);
+            new MagicPacketSender().SendMagicPacket(macAddress);
+
+            return Sent(string.Format("Сообщение отправлено на MAC адрес {0}", macAddress));
+        }
+
+        public ActionResult Sent(string message)
+        {
+            ViewBag.Title = "Включение по сети";
+            ViewBag.Message = message;
+            return View("Index", getPagedHosts(string.Empty, null, 0));
         }
 
         private FilteredHostListViewModel getPagedHosts(string name, int? count, int page = 0)
@@ -41,6 +56,13 @@ namespace WakeOnLAN.Controllers
             int total;
             var pageModel = new PagedList<KeyValuePair<string, List<HostResult>>>(repo.GetHostListPaged(name, page, count ?? 10, out total), page, count ?? 10, total);
             return new FilteredHostListViewModel() { HostFilter = name, Hosts = pageModel };
+        }
+
+        private string getMacAddress(string name)
+        {
+            IWolRepository repo = new WolRepository();
+
+            return repo.GetMacAddrByHostName(name);
         }
 
         //public ActionResult DiscoveredHostList(int? count, int page = 1)

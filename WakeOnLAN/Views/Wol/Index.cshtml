@@ -7,31 +7,43 @@
 
 
 
-<fieldset>
-    <legend>Фильтр</legend>
     <table>
         <tr>
         <td>@Html.Label("Хост:")</td>
         <td>@Html.TextBox("nameFilter",Model.HostFilter, new {@id="nameFilter"})</td>
             </tr>
     </table>
-</fieldset>  
+
   @if (Model != null)
   {
     
       {
+        
           Html.RenderPartial("Hosts", Model);
+         
       }
 
       <script type="text/javascript" defer>
 
           function search(force) {
               var existingString = $("#nameFilter").val();
+          
+              // calculate the orientation based on aspect ratio
+              var aspectRatio = 1;
+              if (window.innerHeight !== 0) {
+                  aspectRatio = window.innerWidth / window.innerHeight;
+              } // if
+              // determine the orientation based on aspect ratio
+              var orientation = aspectRatio <= 1 ? "portrait" : "landscape";
+              var pageSize = @Html.Raw(Model.Hosts.PageSize);
+            
+              
+
               if (!force && existingString.length < 1) return; //wasn't enter, not > 2 char
               $.ajax({
                       url: '@Url.Action("Hosts", "Wol")',
                       type: "GET",
-                      data: { name: existingString, count: @Html.Raw(Model.Hosts.PageSize), page: 1 },
+                      data: { name: existingString, count: (orientation == "landscape" ) ? pageSize: (pageSize * 2), page: 1 },
                       dataType: "html",
                       success:
                           function(data) {

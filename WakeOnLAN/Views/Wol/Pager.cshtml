@@ -1,0 +1,13 @@
+﻿@using Paging
+@model WakeOnLAN.ViewModel.FilteredHostListViewModel
+@{ Layout = null;
+    var hosts = Model.Hosts;}
+ 
+<div class="pager">@Ajax.Pager(Model.HostFilter, hosts.PageSize, hosts.PageIndex, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
+                             {
+                                 UpdateTargetId = "wol-hosts-filtered-paged",
+                                 InsertionMode = InsertionMode.Replace,
+                                 HttpMethod = "POST",
+                                 Url = Url.Action("Hosts", "Wol", new {@name = Model.HostFilter, @page = hosts.PageIndex, @count = hosts.PageSize})
+
+                             })</div>

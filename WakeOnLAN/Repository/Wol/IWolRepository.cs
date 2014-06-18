@@ -11,5 +11,11 @@ namespace WakeOnLAN.Repository.Wol
     {
         List<KeyValuePair<string, List<HostResult>>> GetAllHostList();
        List<KeyValuePair<string, List<HostResult>>> GetHostListPaged(string hostName, int pageNo, int pagesize, out int total);
+       /// <summary>
+       /// Retrieve MAC  address from DB
+       /// </summary>
+       /// <param name="hostName"></param>
+       /// <returns></returns>
+       string GetMacAddrByHostName(string hostName);
     }
 }

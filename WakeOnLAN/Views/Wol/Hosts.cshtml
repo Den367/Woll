@@ -5,8 +5,7 @@
     var hosts = Model.Hosts;}
 
     <div id="wol-hosts-filtered-paged">
-          
-      <div class="pager">@Ajax.Pager(Model.HostFilter, hosts.PageSize, hosts.PageIndex, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
+          <div class="pager">@Ajax.Pager(Model.HostFilter, hosts.PageSize, hosts.PageIndex, hosts.TotalItemCount, "Index", "Wol", new AjaxOptions
                              {
                                  UpdateTargetId = "wol-hosts-filtered-paged",
                                  InsertionMode = InsertionMode.Replace,
@@ -14,6 +13,7 @@
                                  Url = Url.Action("Hosts", "Wol", new {@name = Model.HostFilter, @page = hosts.PageIndex, @count = hosts.PageSize})
 
                              })</div>
+     
             @if (hosts.Any()) 
             {
                 <div>
@@ -26,8 +26,8 @@
                                  <tr>
                                      <td>@host.Key</td>
                                      <td>@c.IpAddress</td>
-                                     <td>@c.MACAddress</td>
-                                     <td> @Html.ActionLink("Отправить magic packet", "SendMagicPacket", new {macAddress = c.MACAddress}, new {@class = "btn"})</td>
+                                     @*<td>@c.MACAddress</td>*@
+                                     <td> @Html.ActionLink("Отправить magic packet", "SendMagicPacketByHostName", new {hostName = host.Key}, new {@class = "btn"})</td>
 
                                      @*<td>@if (!c.Online)
                                          {
