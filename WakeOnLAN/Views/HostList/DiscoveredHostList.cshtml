@@ -18,7 +18,7 @@
        
         @if (Model != null)
         {
-            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)        
+            @Html.Pager(Model.PageSize, Model.PageNumber - 1, Model.TotalItemCount)        
             if (Model.Any()) 
             {
                 <table class="list">
@@ -37,7 +37,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)           
+                @Html.Pager(Model.PageSize, Model.PageIndex - 1, Model.TotalItemCount)           
             }
         }
     </div>
