@@ -103,7 +103,7 @@ namespace Paging
         /// </summary>
         static Pager()
         {
-            NumPageLinksToDisplay = 10;
+            NumPageLinksToDisplay = 5;
             PageNumberParameterName = "page";
             PageSizeParameterName = "count";
             PageSizesToDisplay = new int[] { 3, 4, 5 };
@@ -310,10 +310,10 @@ namespace Paging
 
         private string GeneratePageLink(string linkText, int pageNumber)
         {
-            if (this._ajaxOptionsValues != null) return GenerateAjaxedPageLink(linkText, _filter, pageNumber, this.pageSize)
+            if (this._ajaxOptionsValues != null) return GenerateAjaxedPageLink(linkText, _filter, pageNumber , this.pageSize)
             ;
             
-            return GeneratePageLink(linkText, null,pageNumber, this.pageSize);
+            return GeneratePageLink(linkText, null,pageNumber - 1, this.pageSize);
         }
 
 
@@ -327,7 +327,7 @@ namespace Paging
             var pageLinkValueDictionary = new RouteValueDictionary { {"name", name},{ "page", pageNumber }, { "count", pageSizeToDisplay } };
 
             var opt = new AjaxOptions();
-            _ajaxOptionsValues.Url = _ajaxOptionsValues.Url.ReplaceQueryStringValue("page", pageNumber.ToString());
+            _ajaxOptionsValues.Url = _ajaxOptionsValues.Url.ReplaceQueryStringValue("page", pageNumber.ToString(CultureInfo.InvariantCulture));
             return _ajaxHelper.ActionLink(linkText, _actionName, _controllerName, pageLinkValueDictionary, _ajaxOptionsValues).ToString();
 
 
