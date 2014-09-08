@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Paging
+namespace Web.Ajax.Paging
 {
     /// <summary>
     /// Represents a paged list.

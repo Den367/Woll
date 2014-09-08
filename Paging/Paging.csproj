@@ -7,8 +7,8 @@
     <ProjectGuid>{F4A2AB1E-5E4A-4762-97A8-C75B113C3E42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Paging</RootNamespace>
-    <AssemblyName>Paging</AssemblyName>
+    <RootNamespace>Web.Ajax.Paging</RootNamespace>
+    <AssemblyName>Web.Ajax.Paging</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

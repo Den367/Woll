@@ -7,9 +7,10 @@ using System.Web;
 using System.Web.Mvc;
 using Network.Computer.Enumerate;
 using Network.Computer.Enumerate.DL;
-using Paging;
+
 using WakeOnLAN.Repository;
 using WakeOnLAN.Repository.HostList;
+using Web.Ajax.Paging;
 
 namespace WakeOnLAN.Controllers
 {

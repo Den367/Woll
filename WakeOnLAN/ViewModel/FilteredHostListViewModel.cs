@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Paging;
+
+using Web.Ajax.Paging;
 
 namespace WakeOnLAN.ViewModel
 {

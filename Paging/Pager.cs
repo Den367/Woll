@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 
-namespace Paging
+namespace Web.Ajax.Paging
 {
     /// <summary>
     /// Represents a pager control on a web page.

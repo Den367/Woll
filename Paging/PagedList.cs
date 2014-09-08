@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Paging
+namespace Web.Ajax.Paging
 {
     /// <summary>
     /// A list that allows paging.

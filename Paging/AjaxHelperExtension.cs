@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 
-namespace Paging
+namespace Web.Ajax.Paging
 {
    
     public static class AjaxHelperExtension
