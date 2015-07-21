@@ -133,7 +133,7 @@ namespace Web.Ajax.Paging
             this.linkWithoutPageValuesDictionary = valuesDictionary;
         }
 
-        public Pager(ViewContext viewContext, string name,int pageSize, int currentPage, int totalItemCount, AjaxHelper ajaxHelper, string actionName, string controllerName, AjaxOptions ajaxOptions)
+        public Pager(ViewContext viewContext, string name, int pageSize, int currentPage, int totalItemCount, AjaxHelper ajaxHelper, string actionName, string controllerName, AjaxOptions ajaxOptions)
         {
             this.viewContext = viewContext;
             this.pageSize = pageSize;
@@ -143,8 +143,22 @@ namespace Web.Ajax.Paging
             this._ajaxHelper = ajaxHelper;
             this._actionName = actionName;
             this._controllerName = controllerName;
-             this.linkWithoutPageValuesDictionary = new RouteValueDictionary();
+            this.linkWithoutPageValuesDictionary = new RouteValueDictionary();
             this._filter = name;
+        }
+
+        public Pager(ViewContext viewContext, int pageSize, int currentPage, int totalItemCount, AjaxHelper ajaxHelper, string actionName, string controllerName, AjaxOptions ajaxOptions)
+        {
+            this.viewContext = viewContext;
+            this.pageSize = pageSize;
+            this.currentPage = currentPage;
+            this.totalItemCount = totalItemCount;
+            this._ajaxOptionsValues = ajaxOptions;
+            this._ajaxHelper = ajaxHelper;
+            this._actionName = actionName;
+            this._controllerName = controllerName;
+            this.linkWithoutPageValuesDictionary = new RouteValueDictionary();
+      
         }
 
         #endregion
@@ -313,7 +327,7 @@ namespace Web.Ajax.Paging
             if (this._ajaxOptionsValues != null) return GenerateAjaxedPageLink(linkText, _filter, pageNumber , this.pageSize)
             ;
             
-            return GeneratePageLink(linkText, null,pageNumber - 1, this.pageSize);
+            return GeneratePageLink(linkText, null,pageNumber, this.pageSize);
         }
 
 
@@ -324,11 +338,11 @@ namespace Web.Ajax.Paging
 
         private string GenerateAjaxedPageLink(string linkText, string name,int pageNumber, int pageSizeToDisplay)
         {
-            var pageLinkValueDictionary = new RouteValueDictionary { {"name", name},{ "page", pageNumber }, { "count", pageSizeToDisplay } };
+            var pageLinkValueDictionary = new RouteValueDictionary { {"name", name},{ "pageNo", pageNumber }, { "count", pageSizeToDisplay } };
 
             var opt = new AjaxOptions();
-            _ajaxOptionsValues.Url = _ajaxOptionsValues.Url.ReplaceQueryStringValue("page", pageNumber.ToString(CultureInfo.InvariantCulture));
-            return _ajaxHelper.ActionLink(linkText, _actionName, _controllerName, pageLinkValueDictionary, _ajaxOptionsValues).ToString();
+            _ajaxOptionsValues.Url = _ajaxOptionsValues.Url.ReplaceQueryStringValue("pageNo", pageNumber.ToString(CultureInfo.InvariantCulture));
+            return _ajaxHelper.ActionLink(linkText, _actionName, _controllerName, pageLinkValueDictionary, _ajaxOptionsValues,new {@class = "btn"}).ToString();
 
 
 
